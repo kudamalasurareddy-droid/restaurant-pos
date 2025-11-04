@@ -89,7 +89,7 @@ const POSInterface = () => {
     }
   });
 
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrder] = useState(null);
   const [paymentType, setPaymentType] = useState('');
 
   useEffect(() => {

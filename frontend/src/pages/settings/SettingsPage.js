@@ -43,15 +43,9 @@ import {
   Payment as PaymentIcon,
   Notifications as NotificationsIcon,
   Security as SecurityIcon,
-  Print as PrintIcon,
   Backup as BackupIcon,
-  Update as UpdateIcon,
   Storage as StorageIcon,
-  Wifi as WifiIcon,
   Email as EmailIcon,
-  Sms as SmsIcon,
-  Language as LanguageIcon,
-  Palette as PaletteIcon,
   Schedule as ScheduleIcon,
   Receipt as ReceiptIcon,
   LocalTaxi as TaxIcon,
@@ -63,7 +57,6 @@ import {
   Error as ErrorIcon,
   Info as InfoIcon
 } from '@mui/icons-material';
-import { useAuth } from '../../context/AuthContext';
 import { settingsAPI } from '../../services/api';
 import toast from 'react-hot-toast';
 

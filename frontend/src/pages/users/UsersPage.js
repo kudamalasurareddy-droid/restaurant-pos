@@ -33,7 +33,6 @@ import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Person as PersonIcon,
   AdminPanelSettings as AdminIcon,
   ManageAccounts as ManagerIcon,
   PointOfSale as CashierIcon,
@@ -49,14 +48,14 @@ import { usersAPI } from '../../services/api';
 const UsersPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   // Dialog states
   const [userDialog, setUserDialog] = useState(false);
   const [passwordDialog, setPasswordDialog] = useState(false);
-  const [scheduleDialog, setScheduleDialog] = useState(false);
+  const [, setScheduleDialog] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -90,7 +89,7 @@ const UsersPage = () => {
     confirmPassword: ''
   });
 
-  const [scheduleForm, setScheduleForm] = useState({
+  const [, setScheduleForm] = useState({
     monday: { isWorking: false, start: '09:00', end: '17:00' },
     tuesday: { isWorking: false, start: '09:00', end: '17:00' },
     wednesday: { isWorking: false, start: '09:00', end: '17:00' },

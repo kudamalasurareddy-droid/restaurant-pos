@@ -38,7 +38,7 @@ const MenuPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [categories, setCategories] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
