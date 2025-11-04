@@ -46,8 +46,15 @@ const io = socketIo(server, {
   }
 });
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB (non-blocking - server will start even if DB fails in dev)
+// In production, process.exit(1) will be called if connection fails
+connectDB().catch(err => {
+  console.error('Failed to connect to database:', err.message);
+  // In development, continue anyway for testing
+  if (process.env.NODE_ENV !== 'development') {
+    process.exit(1);
+  }
+});
 
 // Security middleware
 app.use(helmet({

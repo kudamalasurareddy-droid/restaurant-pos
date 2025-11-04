@@ -11,11 +11,8 @@ console.log('🔍 Testing MongoDB Connection...');
 console.log('Connection String:', connectionString.replace(/:[^:@]+@/, ':****@')); // Hide password
 console.log('');
 
-// Test connection
-mongoose.connect(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+// Test connection (removed deprecated options for mongoose 6+)
+mongoose.connect(connectionString)
   .then(() => {
     console.log('✅ SUCCESS! Connected to MongoDB');
     console.log('📍 Host:', mongoose.connection.host);
