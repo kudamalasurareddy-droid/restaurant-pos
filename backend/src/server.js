@@ -268,7 +268,7 @@ server.listen(PORT, () => {
    3. Start the frontend: cd frontend && npm start
    4. Access admin panel: http://localhost:3000
 
-🛠️  Development:
+🛠  Development:
    - API Documentation: http://localhost:${PORT}/api/health
    - MongoDB GUI: MongoDB Compass
    - Real-time Events: Socket.io connected
