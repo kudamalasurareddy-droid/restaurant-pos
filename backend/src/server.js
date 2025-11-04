@@ -216,7 +216,9 @@ app.use(errorHandler);
 setupSocketEvents(io);
 
 // Server configuration
-const PORT = process.env.PORT || 5000;
+// Render automatically sets PORT environment variable
+// Use 10000 as fallback for local development
+const PORT = process.env.PORT || 10000;
 
 // Start server
 server.listen(PORT, () => {
