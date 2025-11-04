@@ -36,7 +36,7 @@ Fill in these settings:
 3. **Branch**: `main`
 4. **Root Directory**: `backend` ⭐ **IMPORTANT!**
 5. **Runtime**: `Node`
-6. **Build Command**: `npm install`
+6. **Build Command**: `npm install` (required - Render doesn't allow blank)
 7. **Start Command**: `npm start`
 
 **Click** "Advanced" and verify:

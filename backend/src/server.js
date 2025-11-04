@@ -120,14 +120,40 @@ app.use((req, res, next) => {
 });
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'OK',
-    message: 'Restaurant POS Server is running',
+app.get('/api/health', async (req, res) => {
+  const mongoose = require('mongoose');
+  const packageJson = require('../package.json');
+  
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  const dbState = {
+    0: 'disconnected',
+    1: 'connected',
+    2: 'connecting',
+    3: 'disconnecting'
+  };
+  
+  const healthData = {
+    status: dbStatus === 'connected' ? 'OK' : 'WARNING',
+    message: 'Restaurant POS API Server',
+    version: packageJson.version || '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV,
-    version: process.env.npm_package_version || '1.0.0'
-  });
+    uptime: process.uptime(),
+    database: {
+      status: dbState[mongoose.connection.readyState] || 'unknown',
+      connected: mongoose.connection.readyState === 1,
+      host: mongoose.connection.host || 'unknown',
+      name: mongoose.connection.name || 'unknown'
+    },
+    endpoints: {
+      health: '/api/health',
+      documentation: '/api/health',
+      apiBase: '/api'
+    }
+  };
+  
+  const statusCode = healthData.status === 'OK' ? 200 : 503;
+  res.status(statusCode).json(healthData);
 });
 
 // API Routes
@@ -156,12 +182,24 @@ if (process.env.NODE_ENV === 'production') {
   } else {
     // If frontend is deployed separately (e.g., on Vercel), just return API info for root
     app.get('/', (req, res) => {
+      const packageJson = require('../package.json');
       res.json({
         message: 'Restaurant POS API Server',
-        version: '1.0.0',
-        environment: process.env.NODE_ENV,
+        version: packageJson.version || '1.0.0',
+        environment: process.env.NODE_ENV || 'production',
         health: '/api/health',
-        documentation: '/api/health'
+        documentation: '/api/health',
+        endpoints: {
+          auth: '/api/auth',
+          users: '/api/users',
+          menu: '/api/menu',
+          tables: '/api/tables',
+          orders: '/api/orders',
+          inventory: '/api/inventory',
+          reports: '/api/reports',
+          kot: '/api/kot',
+          settings: '/api/settings'
+        }
       });
     });
   }
