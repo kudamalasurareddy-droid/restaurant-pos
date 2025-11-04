@@ -141,13 +141,30 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/kot', kotRoutes);
 app.use('/api/settings', settingsRoutes);
 
-// Serve React app in production
+// Serve React app in production (only if frontend build exists)
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../frontend/build')));
+  const frontendBuildPath = path.join(__dirname, '../../frontend/build');
+  const fs = require('fs');
   
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../frontend/build/index.html'));
-  });
+  // Only serve frontend if build directory exists (for local deployments)
+  if (fs.existsSync(frontendBuildPath)) {
+    app.use(express.static(frontendBuildPath));
+    
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(frontendBuildPath, 'index.html'));
+    });
+  } else {
+    // If frontend is deployed separately (e.g., on Vercel), just return API info for root
+    app.get('/', (req, res) => {
+      res.json({
+        message: 'Restaurant POS API Server',
+        version: '1.0.0',
+        environment: process.env.NODE_ENV,
+        health: '/api/health',
+        documentation: '/api/health'
+      });
+    });
+  }
 }
 
 // Error handling middleware
