@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Typography,
   Box,
   Grid,
   Card,
   CardContent,
-  CardActions,
   Button,
   Dialog,
   DialogTitle,
@@ -19,34 +18,15 @@ import {
   Alert,
   Tab,
   Tabs,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Chip,
-  LinearProgress,
-  Avatar,
-  Divider,
-  IconButton
+  LinearProgress
 } from '@mui/material';
 import {
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
   Assessment as AssessmentIcon,
-  Receipt as SalesIcon,
-  Restaurant as MenuIcon,
-  Group as StaffIcon,
   TableChart as TableIcon,
   People as CustomerIcon,
   Download as DownloadIcon,
-  DateRange as DateRangeIcon,
   AttachMoney as MoneyIcon,
-  ShoppingCart as OrderIcon,
-  Timer as TimeIcon,
-  Star as StarIcon
+  ShoppingCart as OrderIcon
 } from '@mui/icons-material';
 import { reportsAPI } from '../../services/api';
 
@@ -59,13 +39,9 @@ const ReportsPage = () => {
   // Dashboard data
   const [dashboardData, setDashboardData] = useState(null);
   const [salesReport, setSalesReport] = useState(null);
-  const [menuPerformance, setMenuPerformance] = useState(null);
-  const [staffPerformance, setStaffPerformance] = useState(null);
-  const [tableUtilization, setTableUtilization] = useState(null);
-  const [customerAnalysis, setCustomerAnalysis] = useState(null);
 
   // Filter states
-  const [dateRange, setDateRange] = useState({
+  const [dateRange] = useState({
     startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days ago
     endDate: new Date().toISOString().split('T')[0] // today
   });
@@ -82,12 +58,6 @@ const ReportsPage = () => {
     fetchDashboardData();
   }, []);
 
-  useEffect(() => {
-    if (tabValue > 0) {
-      fetchReportData();
-    }
-  }, [tabValue, dateRange]);
-
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
@@ -101,7 +71,7 @@ const ReportsPage = () => {
     }
   };
 
-  const fetchReportData = async () => {
+  const fetchReportData = useCallback(async () => {
     setLoading(true);
     try {
       const params = {
@@ -115,36 +85,40 @@ const ReportsPage = () => {
           setSalesReport(salesRes.data || {});
           break;
         case 2: // Menu Performance
-          const menuRes = await reportsAPI.getMenuPerformance(params);
-          setMenuPerformance(menuRes.data || {});
+          await reportsAPI.getMenuPerformance(params);
           break;
         case 3: // Staff Performance
-          const staffRes = await reportsAPI.getStaffPerformance(params);
-          setStaffPerformance(staffRes.data || {});
+          await reportsAPI.getStaffPerformance(params);
           break;
         case 4: // Table Utilization
-          const tableRes = await reportsAPI.getTableUtilization(params);
-          setTableUtilization(tableRes.data || {});
+          await reportsAPI.getTableUtilization(params);
           break;
         case 5: // Customer Analysis
-          const customerRes = await reportsAPI.getCustomerAnalysis(params);
-          setCustomerAnalysis(customerRes.data || {});
+          await reportsAPI.getCustomerAnalysis(params);
+          break;
+        default:
           break;
       }
     } catch (err) {
       setError('Failed to fetch report data: ' + (err.response?.data?.message || err.message));
       // Clear data on error instead of showing mock data
       switch (tabValue) {
-        case 1: setSalesReport({}); break;
-        case 2: setMenuPerformance({}); break;
-        case 3: setStaffPerformance({}); break;
-        case 4: setTableUtilization({}); break;
-        case 5: setCustomerAnalysis({}); break;
+        case 1:
+          setSalesReport({});
+          break;
+        default:
+          break;
       }
     } finally {
       setLoading(false);
     }
-  };
+  }, [dateRange, tabValue]);
+
+  useEffect(() => {
+    if (tabValue > 0) {
+      fetchReportData();
+    }
+  }, [tabValue, fetchReportData]);
 
   const handleExport = async () => {
     try {
@@ -172,10 +146,6 @@ const ReportsPage = () => {
     }).format(amount);
   };
 
-  const formatPercentage = (value) => {
-    if (!value) return '0%';
-    return `${value}%`;
-  };
 
   return (
     <Box>

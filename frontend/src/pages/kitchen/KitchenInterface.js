@@ -17,19 +17,15 @@ import {
   Avatar,
   Stack,
   Alert,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  Fab,
-  Badge,
-  Tooltip
+  Badge
 } from '@mui/material';
 import {
   Kitchen as KitchenIcon,
@@ -38,17 +34,11 @@ import {
   Schedule as ScheduleIcon,
   PlayArrow as StartIcon,
   Done as DoneIcon,
-  Warning as WarningIcon,
   TableRestaurant as TableIcon,
   Person as PersonIcon,
   AccessTime as TimeIcon,
-  LocalDining as DiningIcon,
   PriorityHigh as PriorityIcon,
-  Notes as NotesIcon,
   Refresh as RefreshIcon,
-  FilterList as FilterIcon,
-  Print as PrintIcon,
-  Assignment as AssignmentIcon,
   RestaurantMenu as MenuIcon,
   Speed as SpeedIcon
 } from '@mui/icons-material';
@@ -274,7 +264,6 @@ const KitchenInterface = () => {
     return new Date(a.orderTime) - new Date(b.orderTime);
   });
 
-  const activeOrdersCount = orders.filter(o => o?.status !== 'completed').length;
   const preparingCount = orders.filter(o => (typeof o?.status === 'string' ? o.status : o?.status?.name || o?.status?.value) === 'preparing').length;
   const pendingCount = orders.filter(o => (typeof o?.status === 'string' ? o.status : o?.status?.name || o?.status?.value) === 'pending').length;
   const overdueCount = orders.filter(o => o?.estimatedCompletionTime && isOverdue(o.estimatedCompletionTime)).length;

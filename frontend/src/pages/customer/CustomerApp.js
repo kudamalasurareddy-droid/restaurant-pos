@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -56,7 +56,7 @@ const CustomerApp = () => {
     loadMenu();
   }, []);
 
-  const loadMyOrders = async () => {
+  const loadMyOrders = useCallback(async () => {
     if (!isAuthenticated) return;
     try {
       setOrdersLoading(true);
@@ -68,13 +68,13 @@ const CustomerApp = () => {
     } finally {
       setOrdersLoading(false);
     }
-  };
+  }, [isAuthenticated]);
 
   useEffect(() => {
     loadMyOrders();
     const id = setInterval(loadMyOrders, 10000);
     return () => clearInterval(id);
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loadMyOrders]);
 
   const allItems = useMemo(() => {
     return menuByCategory.flatMap(group => group.items || []);
@@ -161,11 +161,11 @@ const CustomerApp = () => {
             // Render a lightweight QR preview in a new window
             const w = window.open('', '_blank', 'width=320,height=360');
             if (w) {
-              w.document.write(`<html><body style=\"margin:0;padding:16px;font-family:sans-serif;\">` +
-                `<h3 style=\"margin:0 0 8px\">Pay for Order ${res.data.orderNumber}</h3>` +
-                `<img src=\"${qrCode}\" alt=\"QR Code\" style=\"width:256px;height:256px\" />` +
-                (url ? `<p><a href=\"${url}\" target=\"_blank\">Open payment page</a></p>` : '') +
-                `<p style=\"color:#666\">Use Stripe test card 4242 4242 4242 4242, any future date, any CVC.</p>` +
+              w.document.write(`<html><body style="margin:0;padding:16px;font-family:sans-serif;">` +
+                `<h3 style="margin:0 0 8px">Pay for Order ${res.data.orderNumber}</h3>` +
+                `<img src="${qrCode}" alt="QR Code" style="width:256px;height:256px" />` +
+                (url ? `<p><a href="${url}" target="_blank">Open payment page</a></p>` : '') +
+                `<p style="color:#666">Use Stripe test card 4242 4242 4242 4242, any future date, any CVC.</p>` +
                 `</body></html>`);
             }
           }

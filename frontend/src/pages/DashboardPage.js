@@ -13,7 +13,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
   Avatar,
   Divider
 } from '@mui/material';
@@ -24,15 +23,13 @@ import {
   TableRestaurant,
   ShoppingCart,
   AttachMoney,
-  People,
   Kitchen,
-  Inventory,
   Warning,
   CheckCircle,
   Schedule,
   Refresh
 } from '@mui/icons-material';
-import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
@@ -44,7 +41,6 @@ const DashboardPage = () => {
   const { stats: liveStats } = useSocket();
   
   const [loading, setLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState(null);
   const [timeRange, setTimeRange] = useState('today'); // today, week, month
 
   useEffect(() => {
@@ -54,8 +50,7 @@ const DashboardPage = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const response = await reportsAPI.getDashboard();
-      setDashboardData(response.data);
+      await reportsAPI.getDashboard();
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {

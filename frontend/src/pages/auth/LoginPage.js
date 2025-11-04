@@ -10,7 +10,6 @@ import {
   Alert,
   InputAdornment,
   IconButton,
-  Divider,
   CircularProgress,
   Container
 } from '@mui/material';
@@ -115,10 +114,6 @@ const LoginPage = () => {
 
   // Demo credentials for development
   // Demo credentials removed - use actual user accounts from database
-
-  const handleDemoLogin = (email, password) => {
-    setFormData({ email, password });
-  };
 
   return (
     <Container component="main" maxWidth="sm">

@@ -37,7 +37,6 @@ import {
 import {
   Kitchen as KitchenIcon,
   AccessTime as TimeIcon,
-  Restaurant as RestaurantIcon,
   CheckCircle as CheckCircleIcon,
   Schedule as ScheduleIcon,
   Print as PrintIcon,

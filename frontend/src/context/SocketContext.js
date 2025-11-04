@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 import toast from 'react-hot-toast';
@@ -9,58 +9,7 @@ export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
   const { user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    // Only connect if user is authenticated
-    if (isAuthenticated && user) {
-      const serverUrl = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
-      
-      // Initialize socket connection
-      socketRef.current = io(serverUrl, {
-        auth: {
-          userId: user._id,
-          role: user.role,
-          restaurantId: process.env.REACT_APP_RESTAURANT_ID || 'default',
-        },
-        transports: ['websocket', 'polling'],
-      });
-
-      const socket = socketRef.current;
-
-      // Connection events
-      socket.on('connect', () => {
-        console.log('Connected to server:', socket.id);
-        
-        // Join role-based room
-        socket.emit('join-role-room', {
-          userId: user._id,
-          role: user.role,
-          restaurantId: 'default',
-        });
-      });
-
-      socket.on('disconnect', (reason) => {
-        console.log('Disconnected from server:', reason);
-      });
-
-      socket.on('connect_error', (error) => {
-        console.error('Socket connection error:', error);
-        toast.error('Connection error. Real-time updates may not work.');
-      });
-
-      // Real-time event handlers
-      setupEventHandlers(socket);
-
-      // Cleanup on unmount
-      return () => {
-        if (socket) {
-          socket.disconnect();
-          socketRef.current = null;
-        }
-      };
-    }
-  }, [isAuthenticated, user]);
-
-  const setupEventHandlers = (socket) => {
+  const setupEventHandlers = useCallback((socket) => {
     // Order Management Events
     socket.on('new-order-notification', (data) => {
       toast.success(`New order received: ${data.orderNumber}`, {
@@ -207,7 +156,58 @@ export const SocketProvider = ({ children }) => {
     socket.on('disconnect', () => {
       clearInterval(pingInterval);
     });
-  };
+  }, [user]);
+
+  useEffect(() => {
+    // Only connect if user is authenticated
+    if (isAuthenticated && user) {
+      const serverUrl = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
+      
+      // Initialize socket connection
+      socketRef.current = io(serverUrl, {
+        auth: {
+          userId: user._id,
+          role: user.role,
+          restaurantId: process.env.REACT_APP_RESTAURANT_ID || 'default',
+        },
+        transports: ['websocket', 'polling'],
+      });
+
+      const socket = socketRef.current;
+
+      // Connection events
+      socket.on('connect', () => {
+        console.log('Connected to server:', socket.id);
+        
+        // Join role-based room
+        socket.emit('join-role-room', {
+          userId: user._id,
+          role: user.role,
+          restaurantId: 'default',
+        });
+      });
+
+      socket.on('disconnect', (reason) => {
+        console.log('Disconnected from server:', reason);
+      });
+
+      socket.on('connect_error', (error) => {
+        console.error('Socket connection error:', error);
+        toast.error('Connection error. Real-time updates may not work.');
+      });
+
+      // Real-time event handlers
+      setupEventHandlers(socket);
+
+      // Cleanup on unmount
+      return () => {
+        if (socket) {
+          socket.disconnect();
+          socketRef.current = null;
+        }
+      };
+    }
+  }, [isAuthenticated, user, setupEventHandlers]);
 
   // Socket utility functions
   const emit = (event, data) => {

@@ -39,9 +39,7 @@ import {
   Inventory as InventoryIcon,
   Warning as WarningIcon,
   TrendingDown as LowStockIcon,
-  Store as StoreIcon,
-  Receipt as ReceiptIcon,
-  Analytics as AnalyticsIcon
+  Store as StoreIcon
 } from '@mui/icons-material';
 import { inventoryAPI } from '../../services/api';
 
@@ -50,7 +48,6 @@ const InventoryPage = () => {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [lowStockItems, setLowStockItems] = useState([]);
   const [stockMovements, setStockMovements] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -96,7 +93,6 @@ const InventoryPage = () => {
   }, []);
 
   const fetchData = async () => {
-    setLoading(true);
     try {
       const [itemsRes, lowStockRes, movementsRes] = await Promise.all([
         inventoryAPI.getInventoryItems(),
@@ -111,7 +107,6 @@ const InventoryPage = () => {
     } catch (err) {
       setError('Failed to fetch inventory data: ' + (err.response?.data?.message || err.message));
     } finally {
-      setLoading(false);
     }
   };
 

@@ -26,15 +26,11 @@ import {
   Chip,
   Divider,
   Badge,
-  Avatar,
-  Tabs,
-  Tab,
   InputAdornment,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  ButtonGroup,
-  Tooltip
+  ButtonGroup
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -42,8 +38,6 @@ import {
   Delete as DeleteIcon,
   ShoppingCart as CartIcon,
   Payment as PaymentIcon,
-  Receipt as ReceiptIcon,
-  TableChart as TableIcon,
   Person as PersonIcon,
   Search as SearchIcon,
   Clear as ClearIcon,
@@ -52,7 +46,6 @@ import {
   LocalBar as DrinkIcon,
   Cake as DessertIcon,
   Restaurant as RestaurantIcon,
-  Print as PrintIcon,
   CheckCircle as CheckIcon,
   ExpandMore as ExpandMoreIcon,
   AttachMoney as MoneyIcon,
@@ -75,7 +68,6 @@ const POSInterface = () => {
 
   // Dialog states
   const [paymentDialog, setPaymentDialog] = useState(false);
-  const [orderDialog, setOrderDialog] = useState(false);
   const [customerDialog, setCustomerDialog] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
 
@@ -99,7 +91,6 @@ const POSInterface = () => {
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [paymentType, setPaymentType] = useState('');
-  const [stripeSessionUrl, setStripeSessionUrl] = useState('');
 
   useEffect(() => {
     fetchInitialData();
@@ -257,11 +248,11 @@ const POSInterface = () => {
           if (qrCode) {
             const w = window.open('', '_blank', 'width=320,height=360');
             if (w) {
-              w.document.write(`<html><body style=\"margin:0;padding:16px;font-family:sans-serif;\">` +
-                `<h3 style=\"margin:0 0 8px\">Pay for Order ${created.data.orderNumber || ''}</h3>` +
-                `<img src=\"${qrCode}\" alt=\"QR Code\" style=\"width:256px;height:256px\" />` +
-                (url ? `<p><a href=\"${url}\" target=\"_blank\">Open payment page</a></p>` : '') +
-                `<p style=\"color:#666\">Stripe test: 4242 4242 4242 4242, any future date, any CVC.</p>` +
+              w.document.write(`<html><body style="margin:0;padding:16px;font-family:sans-serif;">` +
+                `<h3 style="margin:0 0 8px">Pay for Order ${created.data.orderNumber || ''}</h3>` +
+                `<img src="${qrCode}" alt="QR Code" style="width:256px;height:256px" />` +
+                (url ? `<p><a href="${url}" target="_blank">Open payment page</a></p>` : '') +
+                `<p style="color:#666">Stripe test: 4242 4242 4242 4242, any future date, any CVC.</p>` +
                 `</body></html>`);
             }
           }
@@ -290,10 +281,6 @@ const POSInterface = () => {
     }
   };
 
-  const handleCompleteOrder = (order) => {
-    setSelectedOrder(order);
-    setShowPayment(true);
-  };
 
   // Simulate cash payment
   const handleCashPayment = () => {

@@ -24,14 +24,6 @@ import {
   Tabs,
   IconButton,
   Avatar,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Badge,
   Divider,
   FormGroup,
   Checkbox
@@ -49,8 +41,7 @@ import {
   Group as CustomerIcon,
   Lock as LockIcon,
   LockOpen as UnlockIcon,
-  Schedule as ScheduleIcon,
-  Analytics as AnalyticsIcon
+  Schedule as ScheduleIcon
 } from '@mui/icons-material';
 import { usersAPI } from '../../services/api';
 
@@ -64,7 +55,6 @@ const UsersPage = () => {
   // Dialog states
   const [userDialog, setUserDialog] = useState(false);
   const [passwordDialog, setPasswordDialog] = useState(false);
-  const [scheduleDialog, setScheduleDialog] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -98,7 +88,7 @@ const UsersPage = () => {
     confirmPassword: ''
   });
 
-  const [scheduleForm, setScheduleForm] = useState({
+  const [, setScheduleForm] = useState({
     monday: { isWorking: false, start: '09:00', end: '17:00' },
     tuesday: { isWorking: false, start: '09:00', end: '17:00' },
     wednesday: { isWorking: false, start: '09:00', end: '17:00' },

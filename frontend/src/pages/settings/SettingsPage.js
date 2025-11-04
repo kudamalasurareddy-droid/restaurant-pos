@@ -23,7 +23,6 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -36,11 +35,7 @@ import {
   TableHead,
   TableRow,
   CircularProgress,
-  InputAdornment,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Badge
+  InputAdornment
 } from '@mui/material';
 import {
   Settings as SettingsIcon,
@@ -60,16 +55,12 @@ import {
   Schedule as ScheduleIcon,
   Receipt as ReceiptIcon,
   LocalTaxi as TaxIcon,
-  Percent as PercentIcon,
   Save as SaveIcon,
   Refresh as RefreshIcon,
   Edit as EditIcon,
-  Delete as DeleteIcon,
-  Add as AddIcon,
   Warning as WarningIcon,
   CheckCircle as CheckCircleIcon,
   Error as ErrorIcon,
-  ExpandMore as ExpandMoreIcon,
   Info as InfoIcon
 } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
@@ -77,7 +68,6 @@ import { settingsAPI } from '../../services/api';
 import toast from 'react-hot-toast';
 
 const SettingsPage = () => {
-  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const [editMode, setEditMode] = useState({});
@@ -167,7 +157,7 @@ const SettingsPage = () => {
   });
 
   // UI Settings
-  const [uiSettings, setUiSettings] = useState({
+  const [, setUiSettings] = useState({
     theme: 'light',
     primaryColor: '#1976d2',
     language: 'en',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Paper,
@@ -11,14 +11,11 @@ import {
   CardContent,
   CardActions,
   Divider,
-  Alert,
-  Snackbar,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Switch,
-  FormControlLabel,
   Chip,
   List,
   ListItem,
@@ -28,12 +25,7 @@ import {
   IconButton,
   Tab,
   Tabs,
-  Badge,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   InputAdornment
 } from '@mui/material';
 import {
@@ -53,7 +45,6 @@ import {
   Visibility,
   VisibilityOff,
   PhotoCamera,
-  Delete as DeleteIcon,
   Schedule as ScheduleIcon,
   LocationOn as LocationIcon
 } from '@mui/icons-material';
@@ -145,14 +136,14 @@ const ProfilePage = () => {
     }
   };
 
-  const fetchAllData = async () => {
+  const fetchAllData = useCallback(async () => {
     setDataLoading(true);
     try {
       await Promise.all([fetchUserStats(), fetchUserActivity()]);
     } finally {
       setDataLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -173,7 +164,7 @@ const ProfilePage = () => {
       // Fetch real data from MongoDB
       fetchAllData();
     }
-  }, [user]);
+  }, [user, fetchAllData]);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);

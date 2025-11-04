@@ -13,12 +13,10 @@ import {
   Badge,
   Tooltip,
   useTheme,
-  useMediaQuery
 } from '@mui/material';
 import {
   Menu as MenuIcon,
   Notifications as NotificationsIcon,
-  AccountCircle,
   Logout,
   Settings,
   Person
@@ -33,7 +31,6 @@ const DRAWER_WIDTH = 280;
 
 const Layout = ({ children }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Typography,
   Box,
@@ -37,9 +37,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
-  Badge,
-  Tooltip
+  ListItemSecondaryAction
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -52,15 +50,12 @@ import {
   CheckCircle as CheckCircleIcon,
   Cancel as CancelIcon,
   Timer as TimerIcon,
-  AttachMoney as MoneyIcon,
   TableChart as TableIcon,
-  Person as PersonIcon,
   ExpandMore as ExpandMoreIcon,
   Print as PrintIcon,
   LocalShipping as DeliveryIcon,
   Refresh as RefreshIcon,
-  Search as SearchIcon,
-  FilterList as FilterIcon
+  Search as SearchIcon
 } from '@mui/icons-material';
 import { ordersAPI, menuAPI } from '../../services/api';
 
@@ -97,11 +92,7 @@ const OrdersPage = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [orderTypeFilter, setOrderTypeFilter] = useState('all');
 
-  useEffect(() => {
-    fetchOrders();
-  }, [tabValue, statusFilter, orderTypeFilter]);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setLoading(true);
     try {
       const params = {};
@@ -116,7 +107,11 @@ const OrdersPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter, orderTypeFilter]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [tabValue, fetchOrders]);
 
   const fetchMenuItems = async () => {
     setMenuLoading(true);
