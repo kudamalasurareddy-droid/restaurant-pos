@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: restaurant-pos-backend
+    rootDir: backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        value: mongodb+srv://kudamalasurareddy_db_user:hFTMidztnsdQ9aOr@cluster0.jn1bkky.mongodb.net/restaurant_pos_db?retryWrites=true&w=majority
+      - key: JWT_SECRET
+        value: restaurant-pos-secret-2024
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: CORS_ORIGIN
+        value: https://your-vercel-app.vercel.app
+      - key: FRONTEND_URL
+        value: https://your-vercel-app.vercel.app
+
