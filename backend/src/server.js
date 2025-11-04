@@ -31,11 +31,16 @@ const app = express();
 const server = http.createServer(app);
 
 // Initialize Socket.io with CORS
+const allowedOriginsEnv = process.env.CORS_ORIGIN || process.env.ALLOWED_ORIGINS || '';
+const allowedOrigins = allowedOriginsEnv
+  ? allowedOriginsEnv.split(',').map((s) => s.trim()).filter(Boolean)
+  : (process.env.NODE_ENV === 'production'
+      ? ['https://yourproductiondomain.com']
+      : ['http://localhost:3000', 'http://localhost:3001']);
+
 const io = socketIo(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? ['https://yourproductiondomain.com'] 
-      : ['http://localhost:3000', 'http://localhost:3001'],
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -60,9 +65,7 @@ app.use(helmet({
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://yourproductiondomain.com'] 
-    : ['http://localhost:3000', 'http://localhost:3001'],
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: [
