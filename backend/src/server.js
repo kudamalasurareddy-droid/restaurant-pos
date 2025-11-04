@@ -82,6 +82,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Trust proxy - Required for Render/Heroku and other proxy servers
+app.set('trust proxy', true);
+
 // Handle preflight requests for all routes
 app.options('*', cors(corsOptions));
 
