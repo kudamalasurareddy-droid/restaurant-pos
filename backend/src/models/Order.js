@@ -267,7 +267,7 @@ orderSchema.pre('validate', async function(next) {
 });
 
 // Indexes for better performance
-orderSchema.index({ orderNumber: 1 });
+// Note: orderNumber index already created by unique: true above
 orderSchema.index({ status: 1, createdAt: -1 });
 orderSchema.index({ table: 1, status: 1 });
 orderSchema.index({ waiter: 1, createdAt: -1 });

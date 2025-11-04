@@ -250,7 +250,7 @@ purchaseOrderSchema.pre('save', async function(next) {
 });
 
 // Indexes
-inventoryItemSchema.index({ sku: 1 });
+// Note: sku index already created by unique: true above
 inventoryItemSchema.index({ category: 1, isActive: 1 });
 inventoryItemSchema.index({ name: 'text' });
 

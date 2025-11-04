@@ -4,8 +4,7 @@ const settingsSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['restaurant', 'system', 'notification', 'payment', 'ui'],
-    index: true
+    enum: ['restaurant', 'system', 'notification', 'payment', 'ui']
   },
   settings: {
     type: mongoose.Schema.Types.Mixed,
