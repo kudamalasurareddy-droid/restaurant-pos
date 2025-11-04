@@ -1,0 +1,1050 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Typography,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Alert,
+  Tab,
+  Tabs,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
+  LinearProgress,
+  Avatar,
+  Divider,
+  IconButton
+} from '@mui/material';
+import {
+  TrendingUp as TrendingUpIcon,
+  TrendingDown as TrendingDownIcon,
+  Assessment as AssessmentIcon,
+  Receipt as SalesIcon,
+  Restaurant as MenuIcon,
+  Group as StaffIcon,
+  TableChart as TableIcon,
+  People as CustomerIcon,
+  Download as DownloadIcon,
+  DateRange as DateRangeIcon,
+  AttachMoney as MoneyIcon,
+  ShoppingCart as OrderIcon,
+  Timer as TimeIcon,
+  Star as StarIcon
+} from '@mui/icons-material';
+import { reportsAPI } from '../../services/api';
+
+const ReportsPage = () => {
+  const [tabValue, setTabValue] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  // Dashboard data
+  const [dashboardData, setDashboardData] = useState(null);
+  const [salesReport, setSalesReport] = useState(null);
+  const [menuPerformance, setMenuPerformance] = useState(null);
+  const [staffPerformance, setStaffPerformance] = useState(null);
+  const [tableUtilization, setTableUtilization] = useState(null);
+  const [customerAnalysis, setCustomerAnalysis] = useState(null);
+
+  // Filter states
+  const [dateRange, setDateRange] = useState({
+    startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days ago
+    endDate: new Date().toISOString().split('T')[0] // today
+  });
+
+  const [exportDialog, setExportDialog] = useState(false);
+  const [exportForm, setExportForm] = useState({
+    reportType: 'sales',
+    format: 'pdf',
+    startDate: '',
+    endDate: ''
+  });
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  useEffect(() => {
+    if (tabValue > 0) {
+      fetchReportData();
+    }
+  }, [tabValue, dateRange]);
+
+  const fetchDashboardData = async () => {
+    setLoading(true);
+    try {
+      const response = await reportsAPI.getDashboard();
+      setDashboardData(response.data || {});
+    } catch (err) {
+      setError('Failed to fetch dashboard data: ' + (err.response?.data?.message || err.message));
+      setDashboardData({});
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchReportData = async () => {
+    setLoading(true);
+    try {
+      const params = {
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate
+      };
+
+      switch (tabValue) {
+        case 1: // Sales Report
+          const salesRes = await reportsAPI.getSalesReport(params);
+          setSalesReport(salesRes.data || {});
+          break;
+        case 2: // Menu Performance
+          const menuRes = await reportsAPI.getMenuPerformance(params);
+          setMenuPerformance(menuRes.data || {});
+          break;
+        case 3: // Staff Performance
+          const staffRes = await reportsAPI.getStaffPerformance(params);
+          setStaffPerformance(staffRes.data || {});
+          break;
+        case 4: // Table Utilization
+          const tableRes = await reportsAPI.getTableUtilization(params);
+          setTableUtilization(tableRes.data || {});
+          break;
+        case 5: // Customer Analysis
+          const customerRes = await reportsAPI.getCustomerAnalysis(params);
+          setCustomerAnalysis(customerRes.data || {});
+          break;
+      }
+    } catch (err) {
+      setError('Failed to fetch report data: ' + (err.response?.data?.message || err.message));
+      // Clear data on error instead of showing mock data
+      switch (tabValue) {
+        case 1: setSalesReport({}); break;
+        case 2: setMenuPerformance({}); break;
+        case 3: setStaffPerformance({}); break;
+        case 4: setTableUtilization({}); break;
+        case 5: setCustomerAnalysis({}); break;
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleExport = async () => {
+    try {
+      await reportsAPI.exportReport(exportForm);
+      setSuccess('Report exported successfully');
+      setExportDialog(false);
+    } catch (err) {
+      setError('Failed to export report: ' + (err.response?.data?.message || err.message));
+    }
+  };
+
+  // Utility functions
+      averageOrderValue: 24.51,
+      growthRate: 8.3,
+      topPaymentMethod: 'Card',
+      peakHour: '7:30 PM'
+    },
+    dailySales: [
+      { date: '2024-10-01', revenue: 1450.25, orders: 64 },
+      { date: '2024-10-02', revenue: 1623.50, orders: 71 },
+      { date: '2024-10-03', revenue: 1389.75, orders: 58 },
+      { date: '2024-10-04', revenue: 1756.00, orders: 78 },
+      { date: '2024-10-05', revenue: 1892.25, orders: 82 }
+    ],
+    paymentMethods: [
+      { method: 'Card', amount: 28650.50, percentage: 63.3 },
+      { method: 'Cash', amount: 13560.25, percentage: 30.0 },
+      { method: 'Digital', amount: 3040.00, percentage: 6.7 }
+    ]
+  });
+
+  const generateMockMenuData = () => ({
+    topItems: [
+      { name: 'Grilled Chicken Salad', sold: 234, revenue: 2808.00, rating: 4.8 },
+      { name: 'Margherita Pizza', sold: 189, revenue: 2645.25, rating: 4.6 },
+      { name: 'Caesar Salad', sold: 156, revenue: 1872.00, rating: 4.7 },
+      { name: 'Pasta Carbonara', sold: 143, revenue: 2002.50, rating: 4.5 },
+      { name: 'Fish & Chips', sold: 127, revenue: 1905.00, rating: 4.3 }
+    ],
+    lowPerformers: [
+      { name: 'Vegetable Soup', sold: 12, revenue: 108.00, rating: 3.8 },
+      { name: 'Quinoa Bowl', sold: 18, revenue: 234.00, rating: 3.9 },
+      { name: 'Tofu Stir Fry', sold: 23, revenue: 322.00, rating: 4.0 }
+    ],
+    categoryPerformance: [
+      { category: 'Main Courses', items: 15, totalSold: 892, revenue: 12480.50 },
+      { category: 'Appetizers', items: 8, totalSold: 456, revenue: 4104.00 },
+      { category: 'Desserts', items: 6, totalSold: 234, revenue: 1872.00 },
+      { category: 'Beverages', items: 12, totalSold: 1245, revenue: 3735.00 }
+    ]
+  });
+
+  const generateMockStaffData = () => ({
+    topPerformers: [
+      { name: 'Sarah Johnson', role: 'Waiter', ordersServed: 245, revenue: 5890.50, rating: 4.9 },
+      { name: 'Mike Chen', role: 'Waiter', ordersServed: 198, revenue: 4756.25, rating: 4.7 },
+      { name: 'Emily Davis', role: 'Cashier', ordersServed: 187, revenue: 4502.75, rating: 4.6 },
+      { name: 'James Wilson', role: 'Waiter', ordersServed: 156, revenue: 3744.00, rating: 4.5 }
+    ],
+    shifts: [
+      { shift: 'Morning (9AM-3PM)', staff: 8, orders: 456, efficiency: 92 },
+      { shift: 'Evening (3PM-9PM)', staff: 12, orders: 789, efficiency: 87 },
+      { shift: 'Night (9PM-12AM)', staff: 6, orders: 234, efficiency: 78 }
+    ],
+    departments: [
+      { department: 'Front of House', staff: 15, orders: 1234, satisfaction: 4.6 },
+      { department: 'Kitchen', staff: 8, orders: 1234, efficiency: 89 },
+      { department: 'Management', staff: 3, orders: 0, oversight: 95 }
+    ]
+  });
+
+  const generateMockTableData = () => ({
+    utilizationRate: 76.5,
+    averageTurnover: 2.3,
+    peakHours: ['12:00-13:00', '19:00-21:00'],
+    tableStats: [
+      { table: 'Table 1', capacity: 4, turnovers: 5, revenue: 234.50, utilization: 89 },
+      { table: 'Table 2', capacity: 2, turnovers: 7, revenue: 189.25, utilization: 95 },
+      { table: 'Table 3', capacity: 6, turnovers: 3, revenue: 345.75, utilization: 67 },
+      { table: 'Table 4', capacity: 4, turnovers: 4, revenue: 278.00, utilization: 78 },
+      { table: 'Table 5', capacity: 8, turnovers: 2, revenue: 456.50, utilization: 56 }
+    ],
+    reservationStats: {
+      totalReservations: 145,
+      showRate: 87.6,
+      cancelRate: 8.3,
+      noShowRate: 4.1
+    }
+  });
+
+  const generateMockCustomerData = () => ({
+    totalCustomers: 2847,
+    newCustomers: 234,
+    returningCustomers: 2613,
+    retentionRate: 78.5,
+    topCustomers: [
+      { name: 'John Smith', visits: 24, spent: 1245.50, lastVisit: '2024-10-28' },
+      { name: 'Mary Johnson', visits: 18, spent: 987.25, lastVisit: '2024-10-27' },
+      { name: 'David Brown', visits: 15, spent: 834.75, lastVisit: '2024-10-26' },
+      { name: 'Lisa Wilson', visits: 12, spent: 623.50, lastVisit: '2024-10-25' }
+    ],
+    demographics: [
+      { ageGroup: '18-25', count: 456, percentage: 16 },
+      { ageGroup: '26-35', count: 892, percentage: 31 },
+      { ageGroup: '36-45', count: 745, percentage: 26 },
+      { ageGroup: '46-55', count: 523, percentage: 18 },
+      { ageGroup: '55+', count: 231, percentage: 9 }
+    ]
+  });
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount);
+  };
+
+  const formatPercentage = (value) => `${value}%`;
+
+  return (
+    <Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+        <Typography variant="h4">
+          Reports & Analytics
+        </Typography>
+        <Button
+          variant="outlined"
+          startIcon={<DownloadIcon />}
+          onClick={() => setExportDialog(true)}
+        >
+          Export Report
+        </Button>
+      </Box>
+
+      {error && <Alert severity="error" onClose={() => setError('')} sx={{ mb: 2 }}>{error}</Alert>}
+      {success && <Alert severity="success" onClose={() => setSuccess('')} sx={{ mb: 2 }}>{success}</Alert>}
+
+      <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)} sx={{ mb: 3 }}>
+        <Tab label="Dashboard" />
+        <Tab label="Sales Report" />
+        <Tab label="Menu Performance" />
+        <Tab label="Staff Performance" />
+        <Tab label="Table Utilization" />
+        <Tab label="Customer Analysis" />
+      </Tabs>
+
+      {/* Date Range Filter for non-dashboard tabs */}
+      {tabValue > 0 && (
+        <Box display="flex" gap={2} mb={3}>
+          <TextField
+            label="Start Date"
+            type="date"
+            value={dateRange.startDate}
+            onChange={(e) => setDateRange({ ...dateRange, startDate: e.target.value })}
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            label="End Date"
+            type="date"
+            value={dateRange.endDate}
+            onChange={(e) => setDateRange({ ...dateRange, endDate: e.target.value })}
+            InputLabelProps={{ shrink: true }}
+          />
+        </Box>
+      )}
+
+      {loading && <LinearProgress sx={{ mb: 2 }} />}
+
+      {/* Dashboard Tab */}
+      {tabValue === 0 && dashboardData && dashboardData.overview && (
+        <Grid container spacing={3}>
+          {/* Key Metrics */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Box display="flex" alignItems="center">
+                  <Avatar sx={{ bgcolor: 'success.main', mr: 2 }}>
+                    <MoneyIcon />
+                  </Avatar>
+                  <Box>
+                    <Typography variant="h4">{formatCurrency(dashboardData.overview?.totalRevenue || 0)}</Typography>
+                    <Typography variant="body2" color="text.secondary">Total Revenue</Typography>
+                    <Box display="flex" alignItems="center">
+                      <TrendingUpIcon color="success" fontSize="small" />
+                      <Typography variant="caption" color="success.main">
+                        {formatPercentage(dashboardData.overview?.dailyGrowth || 0)}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Box display="flex" alignItems="center">
+                  <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+                    <OrderIcon />
+                  </Avatar>
+                  <Box>
+                    <Typography variant="h4">{dashboardData.overview?.totalOrders || 0}</Typography>
+                    <Typography variant="body2" color="text.secondary">Total Orders</Typography>
+                    <Typography variant="body2">
+                      Avg: {formatCurrency(dashboardData.overview?.averageOrderValue || 0)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Box display="flex" alignItems="center">
+                  <Avatar sx={{ bgcolor: 'info.main', mr: 2 }}>
+                    <CustomerIcon />
+                  </Avatar>
+                  <Box>
+                    <Typography variant="h4">{dashboardData.overview?.activeCustomers || 0}</Typography>
+                    <Typography variant="body2" color="text.secondary">Active Customers</Typography>
+                    <Typography variant="body2">
+                      Staff: {dashboardData.overview?.staffOnDuty || 0}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Box display="flex" alignItems="center">
+                  <Avatar sx={{ bgcolor: 'warning.main', mr: 2 }}>
+                    <TableIcon />
+                  </Avatar>
+                  <Box>
+                    <Typography variant="h4">{formatPercentage(dashboardData.overview?.tableOccupancy || 0)}</Typography>
+                    <Typography variant="body2" color="text.secondary">Table Occupancy</Typography>
+                    <Typography variant="body2">
+                      Popular Items: {dashboardData.overview?.popularItems || 0}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Recent Activity */}
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Recent Activity</Typography>
+                <Divider sx={{ mb: 2 }} />
+                {(dashboardData.recentActivity || []).map((activity, index) => (
+                  <Box key={index} display="flex" justifyContent="space-between" alignItems="center" py={1}>
+                    <Box>
+                      <Typography variant="body2">{activity.action}</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {activity.time} • {activity.table}
+                      </Typography>
+                    </Box>
+                    <Chip 
+                      label={activity.amount} 
+                      color={activity.amount.startsWith('-') ? 'error' : 'success'}
+                      size="small"
+                    />
+                  </Box>
+                ))}
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Top Categories */}
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Top Categories</Typography>
+                <Divider sx={{ mb: 2 }} />
+                {(dashboardData.topCategories || []).map((category, index) => (
+                  <Box key={index} mb={2}>
+                    <Box display="flex" justifyContent="space-between" mb={1}>
+                      <Typography variant="body2">{category.name}</Typography>
+                      <Typography variant="body2">{formatCurrency(category.revenue)}</Typography>
+                    </Box>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={category.percentage} 
+                      sx={{ height: 6, borderRadius: 3 }}
+                    />
+                  </Box>
+                ))}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+
+      {/* Sales Report Tab */}
+      {tabValue === 1 && salesReport && salesReport.summary && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Total Revenue</Typography>
+                <Typography variant="h4" color="primary">
+                  {formatCurrency(salesReport.summary?.totalRevenue || 0)}
+                </Typography>
+                <Box display="flex" alignItems="center">
+                  <TrendingUpIcon color="success" fontSize="small" />
+                  <Typography variant="body2" color="success.main">
+                    {formatPercentage(salesReport.summary?.growthRate || 0)} growth
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Total Orders</Typography>
+                <Typography variant="h4" color="primary">
+                  {salesReport.summary?.totalOrders || 0}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Peak: {salesReport.summary?.peakHour || 'N/A'}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Average Order</Typography>
+                <Typography variant="h4" color="primary">
+                  {formatCurrency(salesReport.summary?.averageOrderValue || 0)}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Per order value
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Top Payment</Typography>
+                <Typography variant="h4" color="primary">
+                  {salesReport.summary?.topPaymentMethod || 'N/A'}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Most popular method
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Payment Methods */}
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Payment Methods</Typography>
+                <Divider sx={{ mb: 2 }} />
+                {(salesReport.paymentMethods || []).map((method, index) => (
+                  <Box key={index} mb={2}>
+                    <Box display="flex" justifyContent="space-between" mb={1}>
+                      <Typography variant="body2">{method.method}</Typography>
+                      <Typography variant="body2">
+                        {formatCurrency(method.amount)} ({formatPercentage(method.percentage)})
+                      </Typography>
+                    </Box>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={method.percentage} 
+                      sx={{ height: 6, borderRadius: 3 }}
+                    />
+                  </Box>
+                ))}
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Daily Sales */}
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Daily Sales</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Date</TableCell>
+                        <TableCell align="right">Revenue</TableCell>
+                        <TableCell align="right">Orders</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(salesReport.dailySales || []).map((day, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{new Date(day.date).toLocaleDateString()}</TableCell>
+                          <TableCell align="right">{formatCurrency(day.revenue)}</TableCell>
+                          <TableCell align="right">{day.orders}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+
+      {/* Menu Performance Tab */}
+      {tabValue === 2 && menuPerformance && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Top Performing Items</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Item</TableCell>
+                        <TableCell align="right">Sold</TableCell>
+                        <TableCell align="right">Revenue</TableCell>
+                        <TableCell align="right">Rating</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(menuPerformance.topItems || []).map((item, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell align="right">{item.sold}</TableCell>
+                          <TableCell align="right">{formatCurrency(item.revenue)}</TableCell>
+                          <TableCell align="right">
+                            <Chip 
+                              label={item.rating} 
+                              color="success" 
+                              size="small"
+                              icon={<StarIcon />}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Category Performance</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Category</TableCell>
+                        <TableCell align="right">Items</TableCell>
+                        <TableCell align="right">Sold</TableCell>
+                        <TableCell align="right">Revenue</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(menuPerformance.categoryPerformance || []).map((category, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{category.category}</TableCell>
+                          <TableCell align="right">{category.items}</TableCell>
+                          <TableCell align="right">{category.totalSold}</TableCell>
+                          <TableCell align="right">{formatCurrency(category.revenue)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Low Performing Items</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Item</TableCell>
+                        <TableCell align="right">Sold</TableCell>
+                        <TableCell align="right">Revenue</TableCell>
+                        <TableCell align="right">Rating</TableCell>
+                        <TableCell>Action</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(menuPerformance.lowPerformers || []).map((item, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell align="right">{item.sold}</TableCell>
+                          <TableCell align="right">{formatCurrency(item.revenue)}</TableCell>
+                          <TableCell align="right">
+                            <Chip 
+                              label={item.rating} 
+                              color="warning" 
+                              size="small"
+                              icon={<StarIcon />}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Button size="small" variant="outlined">
+                              Review
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+
+      {/* Staff Performance Tab */}
+      {tabValue === 3 && staffPerformance && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Top Performers</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Staff</TableCell>
+                        <TableCell>Role</TableCell>
+                        <TableCell align="right">Orders</TableCell>
+                        <TableCell align="right">Revenue</TableCell>
+                        <TableCell align="right">Rating</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(staffPerformance.topPerformers || []).map((staff, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{staff.name}</TableCell>
+                          <TableCell>
+                            <Chip label={staff.role} size="small" />
+                          </TableCell>
+                          <TableCell align="right">{staff.ordersServed}</TableCell>
+                          <TableCell align="right">{formatCurrency(staff.revenue)}</TableCell>
+                          <TableCell align="right">
+                            <Chip 
+                              label={staff.rating} 
+                              color="success" 
+                              size="small"
+                              icon={<StarIcon />}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Department Performance</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Department</TableCell>
+                        <TableCell align="right">Staff</TableCell>
+                        <TableCell align="right">Orders</TableCell>
+                        <TableCell align="right">Performance</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(staffPerformance.departments || []).map((dept, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{dept.department}</TableCell>
+                          <TableCell align="right">{dept.staff}</TableCell>
+                          <TableCell align="right">{dept.orders}</TableCell>
+                          <TableCell align="right">
+                            <Chip 
+                              label={`${dept.satisfaction || dept.efficiency || dept.oversight}/5`}
+                              color="success" 
+                              size="small"
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Shift Performance</Typography>
+                <Divider sx={{ mb: 2 }} />
+                {(staffPerformance.shifts || []).map((shift, index) => (
+                  <Box key={index} mb={2}>
+                    <Box display="flex" justifyContent="space-between" mb={1}>
+                      <Typography variant="body1">{shift.shift}</Typography>
+                      <Typography variant="body2">
+                        {shift.staff} staff • {shift.orders} orders • {shift.efficiency}% efficiency
+                      </Typography>
+                    </Box>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={shift.efficiency} 
+                      sx={{ height: 8, borderRadius: 4 }}
+                    />
+                  </Box>
+                ))}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+
+      {/* Table Utilization Tab */}
+      {tabValue === 4 && tableUtilization && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Utilization Rate</Typography>
+                <Typography variant="h4" color="primary">
+                  {formatPercentage(tableUtilization.utilizationRate || 0)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Avg Turnover</Typography>
+                <Typography variant="h4" color="primary">
+                  {tableUtilization.averageTurnover || 0}x
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Show Rate</Typography>
+                <Typography variant="h4" color="success.main">
+                  {formatPercentage(tableUtilization.reservationStats?.showRate || 0)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">No-Show Rate</Typography>
+                <Typography variant="h4" color="error.main">
+                  {formatPercentage(tableUtilization.reservationStats?.noShowRate || 0)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Table Performance</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Table</TableCell>
+                        <TableCell align="right">Capacity</TableCell>
+                        <TableCell align="right">Turnovers</TableCell>
+                        <TableCell align="right">Revenue</TableCell>
+                        <TableCell align="right">Utilization</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(tableUtilization.tableStats || []).map((table, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{table.table}</TableCell>
+                          <TableCell align="right">{table.capacity}</TableCell>
+                          <TableCell align="right">{table.turnovers}</TableCell>
+                          <TableCell align="right">{formatCurrency(table.revenue)}</TableCell>
+                          <TableCell align="right">
+                            <Box display="flex" alignItems="center">
+                              <LinearProgress 
+                                variant="determinate" 
+                                value={table.utilization} 
+                                sx={{ width: 60, mr: 1 }}
+                              />
+                              {formatPercentage(table.utilization)}
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+
+      {/* Customer Analysis Tab */}
+      {tabValue === 5 && customerAnalysis && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Total Customers</Typography>
+                <Typography variant="h4" color="primary">
+                  {customerAnalysis.totalCustomers || 0}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">New Customers</Typography>
+                <Typography variant="h4" color="success.main">
+                  {customerAnalysis.newCustomers || 0}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Returning</Typography>
+                <Typography variant="h4" color="info.main">
+                  {customerAnalysis.returningCustomers || 0}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Retention Rate</Typography>
+                <Typography variant="h4" color="warning.main">
+                  {formatPercentage(customerAnalysis.retentionRate || 0)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Top Customers</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Customer</TableCell>
+                        <TableCell align="right">Visits</TableCell>
+                        <TableCell align="right">Spent</TableCell>
+                        <TableCell>Last Visit</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(customerAnalysis.topCustomers || []).map((customer, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{customer.name}</TableCell>
+                          <TableCell align="right">{customer.visits}</TableCell>
+                          <TableCell align="right">{formatCurrency(customer.spent)}</TableCell>
+                          <TableCell>{new Date(customer.lastVisit).toLocaleDateString()}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>Customer Demographics</Typography>
+                <Divider sx={{ mb: 2 }} />
+                {(customerAnalysis.demographics || []).map((demo, index) => (
+                  <Box key={index} mb={2}>
+                    <Box display="flex" justifyContent="space-between" mb={1}>
+                      <Typography variant="body2">{demo.ageGroup}</Typography>
+                      <Typography variant="body2">
+                        {demo.count} ({formatPercentage(demo.percentage)})
+                      </Typography>
+                    </Box>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={demo.percentage} 
+                      sx={{ height: 6, borderRadius: 3 }}
+                    />
+                  </Box>
+                ))}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+
+      {/* Export Dialog */}
+      <Dialog open={exportDialog} onClose={() => setExportDialog(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Export Report</DialogTitle>
+        <DialogContent>
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Report Type</InputLabel>
+            <Select
+              value={exportForm.reportType}
+              onChange={(e) => setExportForm({ ...exportForm, reportType: e.target.value })}
+            >
+              <MenuItem value="sales">Sales Report</MenuItem>
+              <MenuItem value="menu">Menu Performance</MenuItem>
+              <MenuItem value="staff">Staff Performance</MenuItem>
+              <MenuItem value="tables">Table Utilization</MenuItem>
+              <MenuItem value="customers">Customer Analysis</MenuItem>
+            </Select>
+          </FormControl>
+          
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Format</InputLabel>
+            <Select
+              value={exportForm.format}
+              onChange={(e) => setExportForm({ ...exportForm, format: e.target.value })}
+            >
+              <MenuItem value="pdf">PDF</MenuItem>
+              <MenuItem value="excel">Excel</MenuItem>
+              <MenuItem value="csv">CSV</MenuItem>
+            </Select>
+          </FormControl>
+          
+          <TextField
+            fullWidth
+            label="Start Date"
+            type="date"
+            value={exportForm.startDate}
+            onChange={(e) => setExportForm({ ...exportForm, startDate: e.target.value })}
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+          />
+          
+          <TextField
+            fullWidth
+            label="End Date"
+            type="date"
+            value={exportForm.endDate}
+            onChange={(e) => setExportForm({ ...exportForm, endDate: e.target.value })}
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setExportDialog(false)}>Cancel</Button>
+          <Button onClick={handleExport} variant="contained">
+            Export
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
+};
+
+export default ReportsPage;

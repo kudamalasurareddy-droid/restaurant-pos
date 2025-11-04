@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "671ffcd123456789abcde001",
+    "name": "Appetizers",
+    "description": "Delicious starters to begin your meal",
+    "image": "",
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": "2024-10-29T10:00:00.000Z",
+    "updatedAt": "2024-10-29T10:00:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde002",
+    "name": "Main Courses",
+    "description": "Hearty main dishes and entrees",
+    "image": "",
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": "2024-10-29T10:00:00.000Z",
+    "updatedAt": "2024-10-29T10:00:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde003",
+    "name": "Beverages",
+    "description": "Refreshing drinks and beverages",
+    "image": "",
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": "2024-10-29T10:00:00.000Z",
+    "updatedAt": "2024-10-29T10:00:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde004",
+    "name": "Desserts",
+    "description": "Sweet treats and desserts",
+    "image": "",
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": "2024-10-29T10:00:00.000Z",
+    "updatedAt": "2024-10-29T10:00:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde005",
+    "name": "Pizza",
+    "description": "Fresh baked pizzas with various toppings",
+    "image": "",
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": "2024-10-29T10:00:00.000Z",
+    "updatedAt": "2024-10-29T10:00:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde006",
+    "name": "Salads",
+    "description": "Fresh and healthy salad options",
+    "image": "",
+    "isActive": true,
+    "sortOrder": 6,
+    "createdAt": "2024-10-29T10:00:00.000Z",
+    "updatedAt": "2024-10-29T10:00:00.000Z"
+  }
+]

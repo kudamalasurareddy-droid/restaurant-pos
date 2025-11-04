@@ -1,0 +1,368 @@
+[
+  {
+    "_id": "671ffcd123456789abcde401",
+    "orderNumber": "ORD-001",
+    "kotNumber": "KOT-001",
+    "tableNumber": 2,
+    "waiter": {
+      "id": "671ffcd123456789abcde501",
+      "name": "John Smith",
+      "employeeId": "EMP001"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde103",
+          "name": "Grilled Salmon",
+          "category": "Main Courses"
+        },
+        "quantity": 2,
+        "status": "pending",
+        "specialInstructions": "Medium rare, no onions",
+        "preparationTime": 20,
+        "startTime": null,
+        "completedTime": null
+      },
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde101",
+          "name": "Chicken Wings",
+          "category": "Appetizers"
+        },
+        "quantity": 1,
+        "status": "preparing",
+        "specialInstructions": "Extra spicy",
+        "preparationTime": 15,
+        "startTime": "2024-10-29T14:15:00.000Z",
+        "completedTime": null
+      }
+    ],
+    "priority": "normal",
+    "status": "preparing",
+    "orderTime": "2024-10-29T14:10:00.000Z",
+    "printedTime": "2024-10-29T14:11:00.000Z",
+    "startTime": "2024-10-29T14:15:00.000Z",
+    "estimatedCompletionTime": "2024-10-29T14:35:00.000Z",
+    "completedTime": null,
+    "notes": "Customer is allergic to nuts",
+    "createdAt": "2024-10-29T14:10:00.000Z",
+    "updatedAt": "2024-10-29T14:15:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde402",
+    "orderNumber": "ORD-002",
+    "kotNumber": "KOT-002",
+    "tableNumber": 5,
+    "waiter": {
+      "id": "671ffcd123456789abcde502",
+      "name": "Sarah Johnson",
+      "employeeId": "EMP002"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde105",
+          "name": "Margherita Pizza",
+          "category": "Pizza"
+        },
+        "quantity": 1,
+        "status": "completed",
+        "specialInstructions": "Extra cheese",
+        "preparationTime": 18,
+        "startTime": "2024-10-29T13:30:00.000Z",
+        "completedTime": "2024-10-29T13:48:00.000Z"
+      },
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde107",
+          "name": "Caesar Salad",
+          "category": "Salads"
+        },
+        "quantity": 2,
+        "status": "completed",
+        "specialInstructions": "Dressing on the side",
+        "preparationTime": 8,
+        "startTime": "2024-10-29T13:25:00.000Z",
+        "completedTime": "2024-10-29T13:33:00.000Z"
+      }
+    ],
+    "priority": "normal",
+    "status": "completed",
+    "orderTime": "2024-10-29T13:20:00.000Z",
+    "printedTime": "2024-10-29T13:21:00.000Z",
+    "startTime": "2024-10-29T13:25:00.000Z",
+    "estimatedCompletionTime": "2024-10-29T13:43:00.000Z",
+    "completedTime": "2024-10-29T13:48:00.000Z",
+    "notes": "",
+    "createdAt": "2024-10-29T13:20:00.000Z",
+    "updatedAt": "2024-10-29T13:48:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde403",
+    "orderNumber": "ORD-003",
+    "kotNumber": "KOT-003",
+    "tableNumber": 8,
+    "waiter": {
+      "id": "671ffcd123456789abcde503",
+      "name": "Mike Wilson",
+      "employeeId": "EMP003"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde104",
+          "name": "Beef Ribeye Steak",
+          "category": "Main Courses"
+        },
+        "quantity": 1,
+        "status": "pending",
+        "specialInstructions": "Well done, side of garlic butter",
+        "preparationTime": 25,
+        "startTime": null,
+        "completedTime": null
+      },
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde102",
+          "name": "Mozzarella Sticks",
+          "category": "Appetizers"
+        },
+        "quantity": 1,
+        "status": "pending",
+        "specialInstructions": "",
+        "preparationTime": 10,
+        "startTime": null,
+        "completedTime": null
+      }
+    ],
+    "priority": "high",
+    "status": "pending",
+    "orderTime": "2024-10-29T14:20:00.000Z",
+    "printedTime": "2024-10-29T14:21:00.000Z",
+    "startTime": null,
+    "estimatedCompletionTime": "2024-10-29T14:46:00.000Z",
+    "completedTime": null,
+    "notes": "VIP customer - priority service",
+    "createdAt": "2024-10-29T14:20:00.000Z",
+    "updatedAt": "2024-10-29T14:21:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde404",
+    "orderNumber": "ORD-004",
+    "kotNumber": "KOT-004",
+    "tableNumber": 3,
+    "waiter": {
+      "id": "671ffcd123456789abcde501",
+      "name": "John Smith",
+      "employeeId": "EMP001"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde113",
+          "name": "Chicken Pasta",
+          "category": "Main Courses"
+        },
+        "quantity": 2,
+        "status": "preparing",
+        "specialInstructions": "Extra sauce",
+        "preparationTime": 22,
+        "startTime": "2024-10-29T14:25:00.000Z",
+        "completedTime": null
+      }
+    ],
+    "priority": "normal",
+    "status": "preparing",
+    "orderTime": "2024-10-29T14:22:00.000Z",
+    "printedTime": "2024-10-29T14:23:00.000Z",
+    "startTime": "2024-10-29T14:25:00.000Z",
+    "estimatedCompletionTime": "2024-10-29T14:47:00.000Z",
+    "completedTime": null,
+    "notes": "",
+    "createdAt": "2024-10-29T14:22:00.000Z",
+    "updatedAt": "2024-10-29T14:25:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde405",
+    "orderNumber": "ORD-005",
+    "kotNumber": "KOT-005",
+    "tableNumber": 1,
+    "waiter": {
+      "id": "671ffcd123456789abcde502",
+      "name": "Sarah Johnson",
+      "employeeId": "EMP002"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde106",
+          "name": "Pepperoni Pizza",
+          "category": "Pizza"
+        },
+        "quantity": 1,
+        "status": "ready",
+        "specialInstructions": "Light on pepperoni",
+        "preparationTime": 18,
+        "startTime": "2024-10-29T14:00:00.000Z",
+        "completedTime": "2024-10-29T14:18:00.000Z"
+      },
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde110",
+          "name": "Fresh Orange Juice",
+          "category": "Beverages"
+        },
+        "quantity": 2,
+        "status": "ready",
+        "specialInstructions": "No ice",
+        "preparationTime": 3,
+        "startTime": "2024-10-29T14:02:00.000Z",
+        "completedTime": "2024-10-29T14:05:00.000Z"
+      }
+    ],
+    "priority": "normal",
+    "status": "ready",
+    "orderTime": "2024-10-29T13:58:00.000Z",
+    "printedTime": "2024-10-29T13:59:00.000Z",
+    "startTime": "2024-10-29T14:00:00.000Z",
+    "estimatedCompletionTime": "2024-10-29T14:18:00.000Z",
+    "completedTime": "2024-10-29T14:18:00.000Z",
+    "notes": "",
+    "createdAt": "2024-10-29T13:58:00.000Z",
+    "updatedAt": "2024-10-29T14:18:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde406",
+    "orderNumber": "ORD-006",
+    "kotNumber": "KOT-006",
+    "tableNumber": 6,
+    "waiter": {
+      "id": "671ffcd123456789abcde503",
+      "name": "Mike Wilson",
+      "employeeId": "EMP003"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde108",
+          "name": "Greek Salad",
+          "category": "Salads"
+        },
+        "quantity": 1,
+        "status": "preparing",
+        "specialInstructions": "Extra olives",
+        "preparationTime": 10,
+        "startTime": "2024-10-29T14:30:00.000Z",
+        "completedTime": null
+      },
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde114",
+          "name": "Vegetable Stir Fry",
+          "category": "Main Courses"
+        },
+        "quantity": 1,
+        "status": "pending",
+        "specialInstructions": "Spicy",
+        "preparationTime": 15,
+        "startTime": null,
+        "completedTime": null
+      }
+    ],
+    "priority": "normal",
+    "status": "preparing",
+    "orderTime": "2024-10-29T14:28:00.000Z",
+    "printedTime": "2024-10-29T14:29:00.000Z",
+    "startTime": "2024-10-29T14:30:00.000Z",
+    "estimatedCompletionTime": "2024-10-29T14:45:00.000Z",
+    "completedTime": null,
+    "notes": "Vegetarian customer",
+    "createdAt": "2024-10-29T14:28:00.000Z",
+    "updatedAt": "2024-10-29T14:30:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde407",
+    "orderNumber": "ORD-007",
+    "kotNumber": "KOT-007",
+    "tableNumber": 4,
+    "waiter": {
+      "id": "671ffcd123456789abcde501",
+      "name": "John Smith",
+      "employeeId": "EMP001"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde111",
+          "name": "Chocolate Cake",
+          "category": "Desserts"
+        },
+        "quantity": 2,
+        "status": "pending",
+        "specialInstructions": "With vanilla ice cream",
+        "preparationTime": 5,
+        "startTime": null,
+        "completedTime": null
+      },
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde115",
+          "name": "Iced Coffee",
+          "category": "Beverages"
+        },
+        "quantity": 2,
+        "status": "ready",
+        "specialInstructions": "Extra strong",
+        "preparationTime": 2,
+        "startTime": "2024-10-29T14:32:00.000Z",
+        "completedTime": "2024-10-29T14:34:00.000Z"
+      }
+    ],
+    "priority": "low",
+    "status": "preparing",
+    "orderTime": "2024-10-29T14:30:00.000Z",
+    "printedTime": "2024-10-29T14:31:00.000Z",
+    "startTime": "2024-10-29T14:32:00.000Z",
+    "estimatedCompletionTime": "2024-10-29T14:37:00.000Z",
+    "completedTime": null,
+    "notes": "Birthday celebration",
+    "createdAt": "2024-10-29T14:30:00.000Z",
+    "updatedAt": "2024-10-29T14:34:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcde408",
+    "orderNumber": "ORD-008",
+    "kotNumber": "KOT-008",
+    "tableNumber": 7,
+    "waiter": {
+      "id": "671ffcd123456789abcde502",
+      "name": "Sarah Johnson",
+      "employeeId": "EMP002"
+    },
+    "items": [
+      {
+        "menuItem": {
+          "id": "671ffcd123456789abcde112",
+          "name": "Tiramisu",
+          "category": "Desserts"
+        },
+        "quantity": 1,
+        "status": "completed",
+        "specialInstructions": "",
+        "preparationTime": 5,
+        "startTime": "2024-10-29T13:45:00.000Z",
+        "completedTime": "2024-10-29T13:50:00.000Z"
+      }
+    ],
+    "priority": "normal",
+    "status": "completed",
+    "orderTime": "2024-10-29T13:40:00.000Z",
+    "printedTime": "2024-10-29T13:41:00.000Z",
+    "startTime": "2024-10-29T13:45:00.000Z",
+    "estimatedCompletionTime": "2024-10-29T13:50:00.000Z",
+    "completedTime": "2024-10-29T13:50:00.000Z",
+    "notes": "",
+    "createdAt": "2024-10-29T13:40:00.000Z",
+    "updatedAt": "2024-10-29T13:50:00.000Z"
+  }
+]

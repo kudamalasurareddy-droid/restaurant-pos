@@ -1,0 +1,526 @@
+[
+  {
+    "_id": "671ffcd123456789abcdef01",
+    "orderNumber": "ORD0001",
+    "orderType": "dine_in",
+    "status": "completed",
+    "table": "671ffcd123456789abcdef11",
+    "customer": {
+      "name": "John Smith",
+      "phone": "+1234567890",
+      "email": "john.smith@email.com"
+    },
+    "waiter": "671ffcd123456789abcdef21",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef31",
+        "name": "Grilled Chicken Salad",
+        "price": 12.99,
+        "quantity": 2,
+        "specialInstructions": "No onions",
+        "status": "served"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef32",
+        "name": "Fresh Orange Juice",
+        "price": 3.99,
+        "quantity": 2,
+        "specialInstructions": "",
+        "status": "served"
+      }
+    ],
+    "subtotal": 33.96,
+    "tax": {
+      "rate": 10,
+      "amount": 3.40
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 0,
+      "amount": 0.00
+    },
+    "totalAmount": 37.36,
+    "paymentMethod": "card",
+    "paymentStatus": "completed",
+    "notes": "Customer requested extra napkins",
+    "estimatedTime": 25,
+    "actualTime": 23,
+    "createdAt": "2024-10-29T10:30:00.000Z",
+    "updatedAt": "2024-10-29T11:15:00.000Z",
+    "completedAt": "2024-10-29T11:15:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef02",
+    "orderNumber": "ORD0002",
+    "orderType": "takeaway",
+    "status": "ready",
+    "customer": {
+      "name": "Mary Johnson",
+      "phone": "+1234567891",
+      "email": "mary.johnson@email.com"
+    },
+    "waiter": "671ffcd123456789abcdef22",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef33",
+        "name": "Margherita Pizza",
+        "price": 14.99,
+        "quantity": 1,
+        "specialInstructions": "Extra cheese",
+        "status": "ready"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef34",
+        "name": "Chocolate Cake",
+        "price": 6.99,
+        "quantity": 1,
+        "specialInstructions": "",
+        "status": "ready"
+      }
+    ],
+    "subtotal": 21.98,
+    "tax": {
+      "rate": 10,
+      "amount": 2.20
+    },
+    "discount": {
+      "type": "fixed",
+      "value": 2.00,
+      "amount": 2.00
+    },
+    "totalAmount": 22.18,
+    "paymentMethod": "cash",
+    "paymentStatus": "pending",
+    "notes": "Customer will pick up in 10 minutes",
+    "estimatedTime": 20,
+    "createdAt": "2024-10-29T12:15:00.000Z",
+    "updatedAt": "2024-10-29T12:35:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef03",
+    "orderNumber": "ORD0003",
+    "orderType": "delivery",
+    "status": "preparing",
+    "customer": {
+      "name": "David Brown",
+      "phone": "+1234567892",
+      "email": "david.brown@email.com",
+      "address": "123 Main St, City, State 12345"
+    },
+    "waiter": "671ffcd123456789abcdef23",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef35",
+        "name": "Pasta Carbonara",
+        "price": 13.99,
+        "quantity": 2,
+        "specialInstructions": "Extra parmesan",
+        "status": "preparing"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef36",
+        "name": "Caesar Salad",
+        "price": 9.99,
+        "quantity": 1,
+        "specialInstructions": "Dressing on the side",
+        "status": "preparing"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef37",
+        "name": "Red Wine",
+        "price": 8.99,
+        "quantity": 1,
+        "specialInstructions": "",
+        "status": "ready"
+      }
+    ],
+    "subtotal": 46.96,
+    "tax": {
+      "rate": 10,
+      "amount": 4.70
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 5,
+      "amount": 2.35
+    },
+    "deliveryFee": 3.99,
+    "totalAmount": 53.30,
+    "paymentMethod": "digital",
+    "paymentStatus": "completed",
+    "notes": "Delivery address: 123 Main St, buzzer #4",
+    "estimatedTime": 35,
+    "deliveryInfo": {
+      "address": "123 Main St, City, State 12345",
+      "instructions": "Ring doorbell, apartment 4B",
+      "estimatedDeliveryTime": "2024-10-29T13:45:00.000Z"
+    },
+    "createdAt": "2024-10-29T12:45:00.000Z",
+    "updatedAt": "2024-10-29T13:20:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef04",
+    "orderNumber": "ORD0004",
+    "orderType": "dine_in",
+    "status": "confirmed",
+    "table": "671ffcd123456789abcdef12",
+    "customer": {
+      "name": "Lisa Wilson",
+      "phone": "+1234567893"
+    },
+    "waiter": "671ffcd123456789abcdef24",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef38",
+        "name": "Fish & Chips",
+        "price": 15.99,
+        "quantity": 1,
+        "specialInstructions": "Tartar sauce on the side",
+        "status": "confirmed"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef39",
+        "name": "Beer",
+        "price": 4.99,
+        "quantity": 2,
+        "specialInstructions": "",
+        "status": "served"
+      }
+    ],
+    "subtotal": 25.97,
+    "tax": {
+      "rate": 10,
+      "amount": 2.60
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 0,
+      "amount": 0.00
+    },
+    "totalAmount": 28.57,
+    "paymentMethod": "card",
+    "paymentStatus": "pending",
+    "notes": "Table celebration - birthday",
+    "estimatedTime": 30,
+    "createdAt": "2024-10-29T13:00:00.000Z",
+    "updatedAt": "2024-10-29T13:05:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef05",
+    "orderNumber": "ORD0005",
+    "orderType": "dine_in",
+    "status": "pending",
+    "table": "671ffcd123456789abcdef13",
+    "customer": {
+      "name": "Tom Davis",
+      "phone": "+1234567894"
+    },
+    "waiter": "671ffcd123456789abcdef25",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef40",
+        "name": "Vegetarian Burger",
+        "price": 11.99,
+        "quantity": 1,
+        "specialInstructions": "No pickles",
+        "status": "pending"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef41",
+        "name": "French Fries",
+        "price": 4.99,
+        "quantity": 1,
+        "specialInstructions": "Extra crispy",
+        "status": "pending"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef42",
+        "name": "Coca Cola",
+        "price": 2.99,
+        "quantity": 1,
+        "specialInstructions": "No ice",
+        "status": "pending"
+      }
+    ],
+    "subtotal": 19.97,
+    "tax": {
+      "rate": 10,
+      "amount": 2.00
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 0,
+      "amount": 0.00
+    },
+    "totalAmount": 21.97,
+    "paymentMethod": "cash",
+    "paymentStatus": "pending",
+    "notes": "Customer is vegetarian",
+    "estimatedTime": 20,
+    "createdAt": "2024-10-29T13:30:00.000Z",
+    "updatedAt": "2024-10-29T13:30:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef06",
+    "orderNumber": "ORD0006",
+    "orderType": "takeaway",
+    "status": "cancelled",
+    "customer": {
+      "name": "Sarah Miller",
+      "phone": "+1234567895"
+    },
+    "waiter": "671ffcd123456789abcdef26",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef43",
+        "name": "Chicken Wings",
+        "price": 9.99,
+        "quantity": 2,
+        "specialInstructions": "Hot sauce",
+        "status": "cancelled"
+      }
+    ],
+    "subtotal": 19.98,
+    "tax": {
+      "rate": 10,
+      "amount": 2.00
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 0,
+      "amount": 0.00
+    },
+    "totalAmount": 21.98,
+    "paymentMethod": "card",
+    "paymentStatus": "refunded",
+    "notes": "Customer cancelled - changed mind",
+    "estimatedTime": 15,
+    "cancelledAt": "2024-10-29T14:10:00.000Z",
+    "cancelReason": "Customer request - changed mind",
+    "createdAt": "2024-10-29T14:00:00.000Z",
+    "updatedAt": "2024-10-29T14:10:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef07",
+    "orderNumber": "ORD0007",
+    "orderType": "dine_in",
+    "status": "served",
+    "table": "671ffcd123456789abcdef14",
+    "customer": {
+      "name": "Robert Taylor",
+      "phone": "+1234567896"
+    },
+    "waiter": "671ffcd123456789abcdef27",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef44",
+        "name": "Ribeye Steak",
+        "price": 24.99,
+        "quantity": 1,
+        "specialInstructions": "Medium rare",
+        "status": "served"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef45",
+        "name": "Mashed Potatoes",
+        "price": 5.99,
+        "quantity": 1,
+        "specialInstructions": "Extra butter",
+        "status": "served"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef46",
+        "name": "Red Wine",
+        "price": 8.99,
+        "quantity": 1,
+        "specialInstructions": "",
+        "status": "served"
+      }
+    ],
+    "subtotal": 39.97,
+    "tax": {
+      "rate": 10,
+      "amount": 4.00
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 10,
+      "amount": 4.00
+    },
+    "totalAmount": 39.97,
+    "paymentMethod": "card",
+    "paymentStatus": "completed",
+    "notes": "VIP customer - complimentary dessert offered",
+    "estimatedTime": 40,
+    "actualTime": 38,
+    "createdAt": "2024-10-29T11:45:00.000Z",
+    "updatedAt": "2024-10-29T12:30:00.000Z",
+    "servedAt": "2024-10-29T12:30:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef08",
+    "orderNumber": "ORD0008",
+    "orderType": "delivery",
+    "status": "ready",
+    "customer": {
+      "name": "Jennifer White",
+      "phone": "+1234567897",
+      "email": "jennifer.white@email.com",
+      "address": "456 Oak Ave, City, State 12345"
+    },
+    "waiter": "671ffcd123456789abcdef28",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef47",
+        "name": "Chicken Alfredo",
+        "price": 16.99,
+        "quantity": 1,
+        "specialInstructions": "Extra sauce",
+        "status": "ready"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef48",
+        "name": "Garlic Bread",
+        "price": 3.99,
+        "quantity": 2,
+        "specialInstructions": "",
+        "status": "ready"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef49",
+        "name": "Tiramisu",
+        "price": 7.99,
+        "quantity": 1,
+        "specialInstructions": "",
+        "status": "ready"
+      }
+    ],
+    "subtotal": 32.96,
+    "tax": {
+      "rate": 10,
+      "amount": 3.30
+    },
+    "discount": {
+      "type": "fixed",
+      "value": 5.00,
+      "amount": 5.00
+    },
+    "deliveryFee": 3.99,
+    "totalAmount": 35.25,
+    "paymentMethod": "digital",
+    "paymentStatus": "completed",
+    "notes": "Contactless delivery requested",
+    "estimatedTime": 30,
+    "deliveryInfo": {
+      "address": "456 Oak Ave, City, State 12345",
+      "instructions": "Leave at door, ring doorbell",
+      "estimatedDeliveryTime": "2024-10-29T14:45:00.000Z"
+    },
+    "createdAt": "2024-10-29T14:00:00.000Z",
+    "updatedAt": "2024-10-29T14:30:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef09",
+    "orderNumber": "ORD0009",
+    "orderType": "takeaway",
+    "status": "preparing",
+    "customer": {
+      "name": "Michael Johnson",
+      "phone": "+1234567898"
+    },
+    "waiter": "671ffcd123456789abcdef29",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef50",
+        "name": "BBQ Ribs",
+        "price": 18.99,
+        "quantity": 1,
+        "specialInstructions": "Extra BBQ sauce",
+        "status": "preparing"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef51",
+        "name": "Coleslaw",
+        "price": 3.99,
+        "quantity": 1,
+        "specialInstructions": "",
+        "status": "ready"
+      }
+    ],
+    "subtotal": 22.98,
+    "tax": {
+      "rate": 10,
+      "amount": 2.30
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 0,
+      "amount": 0.00
+    },
+    "totalAmount": 25.28,
+    "paymentMethod": "cash",
+    "paymentStatus": "pending",
+    "notes": "Customer will pay on pickup",
+    "estimatedTime": 25,
+    "createdAt": "2024-10-29T14:15:00.000Z",
+    "updatedAt": "2024-10-29T14:25:00.000Z"
+  },
+  {
+    "_id": "671ffcd123456789abcdef10",
+    "orderNumber": "ORD0010",
+    "orderType": "dine_in",
+    "status": "completed",
+    "table": "671ffcd123456789abcdef15",
+    "customer": {
+      "name": "Amanda Garcia",
+      "phone": "+1234567899"
+    },
+    "waiter": "671ffcd123456789abcdef30",
+    "items": [
+      {
+        "menuItem": "671ffcd123456789abcdef52",
+        "name": "Salmon Teriyaki",
+        "price": 19.99,
+        "quantity": 1,
+        "specialInstructions": "No vegetables",
+        "status": "served"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef53",
+        "name": "Jasmine Rice",
+        "price": 2.99,
+        "quantity": 1,
+        "specialInstructions": "",
+        "status": "served"
+      },
+      {
+        "menuItem": "671ffcd123456789abcdef54",
+        "name": "Green Tea",
+        "price": 2.99,
+        "quantity": 1,
+        "specialInstructions": "Hot",
+        "status": "served"
+      }
+    ],
+    "subtotal": 25.97,
+    "tax": {
+      "rate": 10,
+      "amount": 2.60
+    },
+    "discount": {
+      "type": "percentage",
+      "value": 15,
+      "amount": 3.90
+    },
+    "totalAmount": 24.67,
+    "paymentMethod": "card",
+    "paymentStatus": "completed",
+    "notes": "Customer has fish allergy - confirmed salmon is okay",
+    "estimatedTime": 28,
+    "actualTime": 25,
+    "tip": 5.00,
+    "createdAt": "2024-10-29T12:30:00.000Z",
+    "updatedAt": "2024-10-29T13:10:00.000Z",
+    "completedAt": "2024-10-29T13:10:00.000Z"
+  }
+]

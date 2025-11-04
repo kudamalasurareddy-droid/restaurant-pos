@@ -1,0 +1,27 @@
+{
+  "name": "restaurant-pos-system",
+  "version": "1.0.0",
+  "description": "Restaurant POS System - MERN Stack Implementation",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "test": "cd backend && npm test",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
+  },
+  "keywords": [
+    "restaurant",
+    "pos",
+    "mern",
+    "mongodb",
+    "express",
+    "react",
+    "nodejs"
+  ],
+  "author": "Restaurant POS Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
