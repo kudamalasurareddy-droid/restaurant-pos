@@ -36,7 +36,7 @@ const allowedOrigins = allowedOriginsEnv
   ? allowedOriginsEnv.split(',').map((s) => s.trim()).filter(Boolean)
   : (process.env.NODE_ENV === 'production'
       ? ['https://yourproductiondomain.com']
-      : ['http://localhost:3000', 'http://localhost:3001']);
+      : ['http://localhost:3000', 'http://localhost:3001', 'capacitor://localhost', 'ionic://localhost']);
 
 const io = socketIo(server, {
   cors: {
@@ -64,13 +64,44 @@ app.use(helmet({
 }));
 
 // CORS configuration
+// Use a dynamic origin handler so:
+// - native mobile requests (no Origin header) are allowed
+// - capacitor:// and ionic:// schemes are allowed in development/when present
+// - exact origins from allowedOriginsEnv are enforced in production
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // If no origin (example: native mobile apps, curl, Postman), allow it
+    if (!origin) return callback(null, true);
+
+    // Allow exact matches from allowedOrigins array
+    if (allowedOrigins && Array.isArray(allowedOrigins) && allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Additional development-friendly allowances
+    if (process.env.NODE_ENV !== 'production') {
+      // Allow http://localhost with any port
+      try {
+        const localhostPattern = /^https?:\/\/localhost(:\d+)?$/i;
+        if (localhostPattern.test(origin)) return callback(null, true);
+      } catch (e) {
+        // fall through to next checks
+      }
+
+      // Allow Capacitor/Ionic schemes
+      if (origin.startsWith('capacitor://') || origin.startsWith('ionic://')) {
+        return callback(null, true);
+      }
+    }
+
+    // Otherwise block
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: [
-    'Content-Type', 
-    'Authorization', 
+    'Content-Type',
+    'Authorization',
     'x-csrf-token',
     'X-Requested-With',
     'Accept',
@@ -170,43 +201,30 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/kot', kotRoutes);
 app.use('/api/settings', settingsRoutes);
 
-// Serve React app in production (only if frontend build exists)
-if (process.env.NODE_ENV === 'production') {
-  const frontendBuildPath = path.join(__dirname, '../../frontend/build');
-  const fs = require('fs');
-  
-  // Only serve frontend if build directory exists (for local deployments)
-  if (fs.existsSync(frontendBuildPath)) {
-    app.use(express.static(frontendBuildPath));
-    
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(frontendBuildPath, 'index.html'));
-    });
-  } else {
-    // If frontend is deployed separately (e.g., on Vercel), just return API info for root
-    app.get('/', (req, res) => {
-      const packageJson = require('../package.json');
-      res.json({
-        message: 'Restaurant POS API Server',
-        version: packageJson.version || '1.0.0',
-        environment: process.env.NODE_ENV || 'production',
-        health: '/api/health',
-        documentation: '/api/health',
-        endpoints: {
-          auth: '/api/auth',
-          users: '/api/users',
-          menu: '/api/menu',
-          tables: '/api/tables',
-          orders: '/api/orders',
-          inventory: '/api/inventory',
-          reports: '/api/reports',
-          kot: '/api/kot',
-          settings: '/api/settings'
-        }
-      });
-    });
-  }
-}
+// Handle root path for API info
+app.get('/', (req, res) => {
+  const packageJson = require('../package.json');
+  res.status(200).json({
+    message: 'Restaurant POS API Server',
+    status: 'running',
+    environment: process.env.NODE_ENV || 'development',
+    version: packageJson.version || '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      users: '/api/users',
+      menu: '/api/menu',
+      tables: '/api/tables',
+      orders: '/api/orders',
+      inventory: '/api/inventory',
+      reports: '/api/reports',
+      kot: '/api/kot',
+      settings: '/api/settings'
+    },
+    documentation: 'Check API_DOCUMENTATION.md for detailed API usage',
+    frontend: process.env.NODE_ENV === 'production' ? 'Deployed separately on Vercel' : 'Run separately on port 3000'
+  });
+});
 
 // Error handling middleware
 app.use(notFound);
