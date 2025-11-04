@@ -23,10 +23,17 @@ const connectDB = async () => {
     }
 
     // Remove deprecated options (not needed in mongoose 6+)
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    // Add connection options for better reliability
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000, // 10 seconds timeout
+      socketTimeoutMS: 45000, // 45 seconds socket timeout
+      maxPoolSize: 10, // Maintain up to 10 socket connections
+      retryWrites: true
+    });
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     console.log(`📊 Database: ${conn.connection.name}`);
+    console.log(`🔗 Ready State: ${conn.connection.readyState} (1=connected)`);
     
     // Create indexes for better performance
     await createIndexes();
@@ -76,15 +83,27 @@ const createIndexes = async () => {
 
 // Handle mongoose connection events
 mongoose.connection.on('connected', () => {
-  console.log('Mongoose connected to MongoDB');
+  console.log('✅ Mongoose connected to MongoDB');
+  console.log(`📍 Host: ${mongoose.connection.host}`);
+  console.log(`📊 Database: ${mongoose.connection.name}`);
 });
 
 mongoose.connection.on('error', (err) => {
-  console.error('Mongoose connection error:', err);
+  console.error('❌ Mongoose connection error:', err.message);
+  // Don't exit - let the app continue and try to reconnect
 });
 
 mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose disconnected');
+  console.log('⚠️  Mongoose disconnected - attempting to reconnect...');
+  
+  // Auto-reconnect if disconnected (only in development)
+  if (process.env.NODE_ENV === 'development' && process.env.MONGODB_URI) {
+    setTimeout(() => {
+      mongoose.connect(process.env.MONGODB_URI).catch(err => {
+        console.error('Reconnection attempt failed:', err.message);
+      });
+    }, 5000); // Retry after 5 seconds
+  }
 });
 
 // Graceful shutdown
