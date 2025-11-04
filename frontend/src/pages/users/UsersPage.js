@@ -24,6 +24,7 @@ import {
   Tabs,
   IconButton,
   Avatar,
+  Badge,
   Divider,
   FormGroup,
   Checkbox
@@ -55,6 +56,7 @@ const UsersPage = () => {
   // Dialog states
   const [userDialog, setUserDialog] = useState(false);
   const [passwordDialog, setPasswordDialog] = useState(false);
+  const [scheduleDialog, setScheduleDialog] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -88,7 +90,7 @@ const UsersPage = () => {
     confirmPassword: ''
   });
 
-  const [, setScheduleForm] = useState({
+  const [scheduleForm, setScheduleForm] = useState({
     monday: { isWorking: false, start: '09:00', end: '17:00' },
     tuesday: { isWorking: false, start: '09:00', end: '17:00' },
     wednesday: { isWorking: false, start: '09:00', end: '17:00' },
